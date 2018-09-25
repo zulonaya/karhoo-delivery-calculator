@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<title>Instant Calculator</title>
+	<!-- Bootstrap CDN -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<!--icon library-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+
+	<!--Jquery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+	
+	<script src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBHmhhDKEik7x2TEOv17aLUFUM5dSSxePM"></script>
+
+	<script src="js/locationpicker.jquery.js"></script>
+	
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+	<div class="container">
+		<div class="form-section row">
+			<div class="block-white col-12 col-md-4">
+				<div class="artwork-styling">
+					<div class="img-center">
+						<img src="./img/Icon-baru-15-jan-2018-rotate-1.png" class="mx-auto" alt="">
+						<img src="./img/web-logo-01.png" class="mx-auto" alt="Karhoo Courier">
+						<h2>DELIVERY CALCULATOR</h2>
+						<p>Get an instant quote for your delivery</p>
+					</div>
+				</div>
+			</div>
+			<div class="right-block col-12 col-md-8">
+				<div class="block-form">
+					<h3><div class="header-icon"><i class="fas fa-truck"></i></div>INSTANT DELIVERY CALCULATOR</h3>
+					<div class="form-group">
+						<form action="" id="delivery-calculator" method="post">
+							<!-- Poscode Sender -->
+							<div class="mb-3" id="sender-input">
+
+								<!-- pick location  button-->
+								<label for="sender-postcode" >Sender Postcode</label>
+								<div class="input-group" >
+									<input class="form-control" type="text" id="sender-postcode" placeholder="Your postcode" name="sender-postcode" maxlength="10" required/>
+									<div class="input-group-append">
+										<button type="button" title="Pick location" class="input-group-button btn btn-location" data-toggle="modal" data-target="#map-modal"><i class="fas fa-map-marker-alt"></i></button>
+									</div>
+
+									<!-- modal for google map API -->
+									<div class="col-12 modal" id="map-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+										<div class="modal-dialog modal-lg modal-styling" role="document">
+											<div class="modal-content modal-full">
+												<div class="modal-header">
+													<h4 class="modal-title" id="myModalLabel">Pick your location</h4>
+													<!-- close button -->
+													<div class="d-flex justify-content-end">
+
+													</div>
+												</div>
+												<!-- modal body -->
+												<div class="modal-body">
+
+													<div id="map" class="map-styling" style="width: 100%; height: 300px;"></div>
+													Search Address <input type="text" class="form-control" id="postcode-sender"/>
+
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default"  data-dismiss="modal" id="validate-location">Pick Location</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- End google map api modal -->
+								</div>
+								<div id='sender-input-error' class='valid-msg'><i class="fas fa-exclamation-triangle"></i>The address is not yet available</div>
+
+							</div>
+							<!-- End sender input -->
+
+							<!-- Poscode Receiver -->
+							<div class="mb-3">
+
+							<!-- pick location button-->
+							<label for="sender-postcode">Receiver Postcode</label>
+							<div class="input-group">
+								<input class="form-control" type="text" id="receiver-postcode" placeholder="Receiver postcode" name="receiver-postcode" maxlength="10" required/>
+								<div class="input-group-append">
+									<button type="button" title="Pick location" class="input-group-button btn btn-location" data-toggle="modal" data-target="#map-modal-receiver"><i class="fas fa-map-marker-alt"></i></button>
+								</div>
+							</div>
+							<!-- modal for google map API -->
+							<div class="col-12 modal" id="map-modal-receiver" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+								<div class="modal-dialog modal-lg modal-styling" role="document">
+									<div class="modal-content modal-full">
+										<div class="modal-header">
+											<h4 class="modal-title" id="myModalLabel1">Pick receiver location</h4>
+											<!-- close button -->
+											<div class="d-flex justify-content-end">
+												
+											</div>
+										</div>
+										<!-- modal body -->
+										<div class="modal-body">
+											
+											<div id="map-receiver" class="map-styling" style="width: 100%; height: 300px;"></div>
+											Search Address <input type="text" class="form-control" id="postcode-receiver"/>
+											
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default"  data-dismiss="modal" id="validate-location-receiver">Pick Location</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End modal google map -->
+							<div id='receiver-input-error' class='valid-msg'><i class="fas fa-exclamation-triangle"></i>The address is not yet available</div>
+							</div>
+							<!-- End receiver postcode input -->
+
+							<!-- Parcel weight -->
+							<div class="row justify-content-md-center form-margin mt-0">
+								<div class="col-md-12 col-12 mt-0"><label for="weight">Weight (KG)</label></div>
+								<div class="col-md-10 col-12 mt-0">
+									<div class="weight-styling">										
+									 <input id="weight" type="text" data-provide="slider" data-slider-ticks="[0, 5, 10, 15, 20,25]" data-slider-ticks-labels='["0" ,"5kg", "10kg", "15kg", "20kg", "25kg"]' data-slider-min="5" data-slider-max="25" data-slider-step="5" data-slider-value="10" data-slider-tooltip="hide" />
+
+									</div>
+								</div>
+							</div>
+							<!-- End parcel weight -->
+
+							<!-- Size and Dimension -->
+							<div class="row justify-content-md-center form-margin mt-0">
+								<div class="col-12 col-md-12"><label for="size">Size (Height x Width x Length)</label></div>
+
+								<div class="col-md-10 col-12 mt-0">
+									<div class="weight-styling form-inline mt-0">
+
+										<!-- Height -->
+										<div class="col-12 col-md input-group">
+											<input type="number" placeholder="H" name="size-height" class="form-control form-padding" id="size-height">
+											<div class="input-group-append">
+												<span class="input-group-text cm-style">cm</span>
+											</div>
+										</div>
+										<!-- Width -->
+										<div class="col-12 col-md input-group">
+											<input type="number" placeholder="W" name="size-width" class="form-control  form-padding" id="size-width">
+											<div class="input-group-append">
+												<span class="input-group-text cm-style">cm</span>
+											</div>
+										</div>
+										<!-- Length -->
+										<div class="col-12 col-md input-group">
+											<input type="number" placeholder="L" name="size-length" class="form-control  form-padding" id="size-length">
+											<div class="input-group-append">
+												<span class="input-group-text cm-style">cm</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<!-- End dimension -->
+
+							<!-- Delivery Type -->
+							<div class="row frb-group">
+								<div class="frb frb-default col-12 col-lg-4">
+									<input type="radio" id="radio-button-0" name="radio-button" value="0">
+									<label for="radio-button-0">
+										<span class="frb-title"><i class="fas fa-bolt"></i> Super-Express</span>
+										<span class="frb-description">Same day delivery, delivery to your receiver in 3 hours.</span>
+									</label>
+								</div>
+								<div class="frb frb-default col-12 col-lg-4">
+									<input type="radio" id="radio-button-1" name="radio-button" value="1">
+									<label for="radio-button-1">
+										<span class="frb-title"><i class="fas fa-shipping-fast"></i> Express</span>
+										<span class="frb-description">Same day delivery, delivery within 5 to 6 hours.</span>
+									</label>
+								</div>
+								<div class="frb frb-default col-12 col-lg-4">
+									<input type="radio" id="radio-button-2" name="radio-button" value="2">
+									<label for="radio-button-2">
+										<span class="frb-title"><i class="fas fa-truck"></i> Normal</span>
+										<span class="frb-description">Delivery of parcel done in the next day</span>
+									</label>
+								</div>
+							</div>
+							<!-- End delivery type -->
+						</div>
+					</div>
+
+					<!-- Submit button and result div -->
+					<div class="row result-div" id="result-div">
+
+						<!-- Submit button -->
+						<div class="col-12 col-md-6 submit-form">
+							<button id="calculate" type="button" class="btn-lg btn-default" >Calculate</button>
+						</div>
+
+						<!-- Result -->
+						<div class="col-12 col-md-6 result-styling">
+							<h2 id="result-total-default">RM0.00</h2>
+							<div id="result-total" class="result-total"></div>
+							<p>The price will differ as per weight and distance</p>
+						</div>
+					</div>
+					<div id="result" class="result-summary"></div>
+					<!--end submit div -->
+				</form>	
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css">
+
+
+
+<script src="js/app.js"></script>
+
+</html>
