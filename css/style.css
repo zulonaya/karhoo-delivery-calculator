@@ -327,14 +327,49 @@ label{
 	padding-left: 2px !important;
 	padding-right: 2px !important; 
 }
+.size-styling{
+	padding: 1em 3em;
+	border: solid 1px rgba(0,0,0,0.1);
+	border-radius: 5px;
+	width: 100%;
+}
 .weight-styling{
 	padding: 1em 3em;
 	border: solid 1px rgba(0,0,0,0.1);
 	border-radius: 5px;
+	width: 75%;
 }
 @media only screen and (max-width: 990px) {
 	.weight-styling{
 		padding: 1em 1em;
+	}
+}
+.weight-div >div{
+	display: inline-block;
+}
+.weight-div{
+	padding:0 1rem !important;
+}
+.weight-display{
+	width: 24%;
+	padding: 1.8em 0.5em 2em 0.5em;
+	border: solid 1px rgba(0,0,0,0.1);
+	border-radius: 5px;
+	height: 6em;
+	vertical-align: top;
+}
+.weight-display-output{
+
+}
+@media only screen and (max-width: 462px) {
+	.weight-styling{
+		width: 73%;
+	}
+	.weight-display{
+		width: 25%;
+	}
+	.weight-symbol{
+		display: none;
 	}
 }
 	.weight-styling>.slider{

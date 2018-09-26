@@ -186,7 +186,7 @@ function checkPostcodeReceiver(){
 }
 
 //only numbers form input
-$("#sender-postcode,#receiver-postcode,#size-height,#size-width,#size-length").on('change keydown paste input',function inputvalidate(evt)
+$("#sender-postcode,#receiver-postcode,#size-height,#size-width,#size-length,#weight-display").on('change keydown paste input',function inputvalidate(evt)
       {
 
          var charCode = (evt.which) ? evt.which : evt.keyCode
@@ -195,6 +195,23 @@ $("#sender-postcode,#receiver-postcode,#size-height,#size-width,#size-length").o
 
          return true;
 });
+
+$("#weight").on('change',function(evt)
+    {
+      let weight = $("#weight").val();
+      $('input[name=weight-display]').val(weight);
+    });
+$("#weight-display").on('change keydown paste input',function(evt)
+    {
+      let weight = $("#weight-display").val();
+
+      if(weight<=25){
+        $('#weight').slider('setValue', weight);
+      }
+      else{
+        $('#weight').slider('setValue', 25);
+      }
+    });
 
 //calculate function
 
@@ -207,12 +224,21 @@ $('#calculate').click(function(){
   let parcel_length = $("#size-length").val();
   let parcel_width = $("#size-width").val();
   let delivery_id = $("input[name='radio-button']:checked").val();
+  let delivery_type;
   let parcel_volumetric = parseInt(parcel_width)+parseInt(parcel_length)+parseInt(parcel_height);
 
   let total;
 
   let calculate_rate_api = './'; //to be change with server url
   let calculate_rate_json = calculate_rate_api.concat("weight="+parcel_weight+"&size="+parcel_volumetric+".json");
+
+  if(delivery_id==0){
+    delivery_type="Super Express Delivery";
+  }else if(delivery_id==1){
+    delivery_type="Express Delivery";
+  }else{
+    delivery_type="Normal Delivery";
+  }
 
   var getJSON = function(url) {
       return new Promise(function(resolve, reject) {
@@ -255,9 +281,9 @@ $('#calculate').click(function(){
         .html( "<div class='delivery-summary'><h1>Delivery Summary</h1>"+
                "<table><tr><td width='60%'>Your Postcode</td><td width='40%'><strong>"+postcode_sender+
                "</strong></td><tr><td>Receiver Postcode</td><td><strong>"+postcode_receiver+
-               "</strong></td><tr><td>Parcel Weight</td><td><strong>"+parcel_weight+
+               "</strong></td><tr><td>Parcel Weight</td><td><strong>"+parcel_weight+"kg"+
                "</strong></td><tr><td>Parcel Volumetric <span style='font-size:0.7em'>(H+L+W)</span></td><td><strong>"+parcel_volumetric+"kg"+
-               "</strong></td><tr><td>Delivery Type</td><td><strong>"+delivery_id +"</td></tr></table></div>" );
+               "</strong></td><tr><td>Delivery Type</td><td><strong>"+delivery_type +"</td></tr></table></div>" );
 
       }
       , function(status) { //error detection....
